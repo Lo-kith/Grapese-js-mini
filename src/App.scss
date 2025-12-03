@@ -1,0 +1,245 @@
+// App.scss
+
+.GrapesJsApp {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f5f5f5;
+  overflow: hidden;
+
+  .top-bar {
+    background: #333;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    
+    button {
+      padding: 8px 16px;
+      background: #555;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      
+      &:hover {
+        background: #666;
+      }
+    }
+  }
+
+  .Editor {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    
+    .left-panel, .right-panel {
+      width: 250px;
+      background: #fff;
+      border-right: 1px solid #ddd;
+      overflow: auto;
+      
+      .panel-section {
+        margin-bottom: 20px;
+        
+        .panel-header {
+          padding: 10px;
+          background: #f5f5f5;
+          font-weight: bold;
+          border-bottom: 1px solid #ddd;
+        }
+      }
+    }
+    
+    .right-panel {
+      border-right: none;
+      border-left: 1px solid #ddd;
+    }
+
+    .canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: auto;
+      background: #e9e9e9;
+    }
+  }
+}
+
+// Math Editor Overlay
+.math-editor-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+z-index: 15;
+
+  .math-editor-container {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    position:absolute;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+
+    .math-editor-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border-bottom: 1px solid #ddd;
+      
+      h3 {
+        margin: 0;
+        font-size: 18px;
+        color: #333;
+      }
+      
+      .close-button {
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+        color: #666;
+        
+        &:hover {
+          color: #333;
+        }
+      }
+    }
+
+    .mathfield-container {
+      padding: 20px;
+      padding-bottom: 10px;
+      contain: content;
+      
+      math-field {
+        will-change: transform;
+        backface-visibility: hidden;
+        
+        &:focus {
+          outline: 2px solid #4a90e2;
+          outline-offset: 2px;
+        }
+      }
+    }
+
+    .math-preview {
+      padding: 0 20px 20px 20px;
+      
+      h4 {
+        margin: 0 0 10px 0;
+        color: #666;
+        font-size: 14px;
+      }
+    }
+
+    .keyboard-container {
+      padding: 0 20px;
+      margin-bottom: 20px;
+      
+      .keyboard-header {
+        margin-bottom: 10px;
+        
+        h4 {
+          margin: 0;
+          color: #666;
+          font-size: 14px;
+        }
+      }
+      
+      .keyboard-content {
+        min-height: 300px;
+        height: 300px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        position: relative;
+        overflow: hidden;
+        contain: layout style;
+        isolation: isolate;
+        
+        // Style MathLive keyboard
+        mf-virtual-keyboard {
+          transition: none !important;
+          animation: none !important;
+          position: relative !important;
+          width: 100% !important;
+          height: 100% !important;
+          top: 0 !important;
+          left: 0 !important;
+        }
+        
+        ::part(virtual-keyboard) {
+          background: #f5f5f5 !important;
+          border: none !important;
+          box-shadow: none !important;
+        }
+        
+        ::part(virtual-keyboard-toggle),
+        ::part(virtual-keyboard-key) {
+          transition: background-color 0.1s ease !important;
+        }
+      }
+    }
+
+    .math-editor-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding: 20px;
+      border-top: 1px solid #ddd;
+      
+      button {
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 14px;
+        border: none;
+        
+        &.cancel-button {
+          background: #f5f5f5;
+          color: #333;
+          
+          &:hover {
+            background: #e5e5e5;
+          }
+        }
+        
+        &.add-button {
+          background: #4a90e2;
+          color: white;
+          
+          &:hover {
+            background: #3a80d2;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Prevent body scroll when math editor is open
+body.math-editor-open {
+  overflow: hidden;
+}
+
+// GrapesJS overrides
+.gjs-one-bg {
+  background-color: #f5f5f5 !important;
+}
+
+.gjs-two-color {
+  color: #666 !important;
+}
+
+.gjs-pn-panel {
+  background-color: #fff !important;
+  border-color: #ddd !important;
+}
