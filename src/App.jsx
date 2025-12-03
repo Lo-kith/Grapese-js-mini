@@ -107,9 +107,15 @@ export default function App() {
       // Use setTimeout to ensure DOM is ready
       timeoutId = setTimeout(() => {
         try {
-          // Always set the value when editor is shown
-          // Use latex property to ensure proper parsing
-          mathFieldEl.latex = mathExpression;
+          // Reset the math field first
+          mathFieldEl.reset();
+          
+          // Only set content if there's an expression
+          if (mathExpression && mathExpression.trim() !== '') {
+            // Use insert method instead of setting value directly
+            mathFieldEl.insert(mathExpression);
+          }
+          
           mathFieldEl.focus();
           
           if (keyboardContainerRef.current) {
@@ -125,7 +131,7 @@ export default function App() {
         } catch (error) {
           console.error("Error initializing math field:", error);
         }
-      }, 50);
+      }, 150); // Increased delay to ensure DOM is ready
 
       // Attach the custom Tab key listener
       mathFieldEl.addEventListener('keydown', handleMathFieldKeyDown);
@@ -422,13 +428,11 @@ export default function App() {
   };
 
   const handleMathInput = (evt) => {
-    // Use the mathfield ref directly for immediate state update
-    const mathFieldEl = mathfieldRef.current;
-    if (mathFieldEl) {
-      // Get the latex value - this is the current value
-      const latexValue = mathFieldEl.latex || '';
-      // Update state immediately with the new value
-      setMathExpression(latexValue);
+    // Check if event and event target exist
+    if (evt && evt.target) {
+      // Get the value from the event target
+      const value = evt.target.value || '';
+      setMathExpression(value);
     }
   };
 
@@ -518,7 +522,6 @@ export default function App() {
                     ref={mathfieldRef}
                     onInput={handleMathInput}
                     onKeyDown={handleKeyDown}
-                    latex
                     virtual-keyboard-mode="on" 
                     virtual-keyboard-layout="symbols"
                     style={{
